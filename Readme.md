@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Stephanie Bobyr](https://up.htmlacademy.ru/javascript/21/user/1323345).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай ٩(｡•́‿•̀｡)۶🎸 Думчев](https://htmlacademy.ru/profile/nikopol_fw).
 
 ---
 
