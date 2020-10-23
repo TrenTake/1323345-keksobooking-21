@@ -91,6 +91,21 @@ advertisements.forEach((advertisement) => {
   pin.style.left = (advertisement.location.x - WEIGHT_PIN / 2) + `px`;
   const imgElement = pin.querySelector(`img`);
   imgElement.src = advertisement.author.avatar;
+  const mapFilterContainer = document.querySelector(`.map__filters-container`);
+  const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+  const cardElement = cardTemplate.cloneNode(true);
+  const titleElement = cardElement.querySelector(`.popup__title`);
+  titleElement.textContent = advertisement.offer.title;
+  const addressElement = cardElement.querySelector(`.popup__text--address`);
+  addressElement.textContent = advertisement.offer.address;
+  const priceElement = cardElement.querySelector(`.popup__text--price`);
+  priceElement.textContent = advertisement.offer.price + `₽/ночь`;
+  const typeElemennt = cardElement.querySelector(`.popup__type`);
+  typeElemennt.textContent = advertisement.offer.type;
+  const roomElement = cardElement.querySelector(`.popup__text--capacity`);
+  roomElement.textContent = advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`;
+  const checkinElement = cardElement.querySelector(`.popup__text--time`);
+  checkinElement.textContent = `заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout;
   fragment.appendChild(pin);
 });
 
