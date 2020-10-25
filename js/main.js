@@ -2,7 +2,7 @@
 const features = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const photos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0.github.io/assets/images/tokyo/hotel2.jpg`, `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 const HEIGHT_PIN = 40;
-const WEIGHT_PIN = 40;
+const WIDTH_PIN = 40;
 
 /**
   * Перемешивает массив
@@ -22,13 +22,13 @@ const pinTemplate = document.querySelector(`#pin`);
 const createFeatures = () => {
   const randomFeatures = features.slice();
   shuffle(randomFeatures);
-  randomFeatures.slice(0, getRandomInt(randomFeatures.length));
+  return randomFeatures.slice(0, getRandomInt(1, randomFeatures.length));
 };
 
 const createPhotos = () => {
   const randomPhotos = photos.slice();
   shuffle(randomPhotos);
-  randomPhotos.slice(0, getRandomInt(randomPhotos.length));
+  return randomPhotos.slice(0, getRandomInt(1, randomPhotos.length));
 };
 
 const getRandomInt = (min, max) => {
@@ -89,7 +89,7 @@ advertisements.forEach((advertisement) => {
   const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
 
   pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
-  pin.style.left = (advertisement.location.x - WEIGHT_PIN / 2) + `px`;
+  pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
   const imgElement = pin.querySelector(`img`);
   imgElement.src = advertisement.author.avatar;
   fragment.appendChild(pin);
@@ -102,34 +102,86 @@ const cardTemplate = document.querySelector(`#card`);
 const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
 
 const createCard = () => {
-  const advertisements = createAdvertisement();
   const mapFilterContainer = document.querySelector(`.map__filters-container`);
   const titleElement = cardElement.querySelector(`.popup__title`);
-  titleElement.textContent = advertisements.offer.title;
+  titleElement.textContent = advertisements[0].offer.title;
   const addressElement = cardElement.querySelector(`.popup__text--address`);
-  addressElement.textContent = advertisements.offer.address;
+  addressElement.textContent = advertisements[0].offer.address;
   const priceElement = cardElement.querySelector(`.popup__text--price`);
-  priceElement.textContent = advertisements.offer.price + `₽/ночь`;
+  priceElement.textContent = advertisements[0].offer.price + `₽/ночь`;
   const typeElemennt = cardElement.querySelector(`.popup__type`);
-  typeElemennt.textContent = advertisements.offer.type;
+  typeElemennt.textContent = advertisements[0].offer.type;
   const roomElement = cardElement.querySelector(`.popup__text--capacity`);
-  roomElement.textContent = advertisements.offer.rooms + `комнаты для` + advertisements.offer.guests + `гостей`;
+  roomElement.textContent = advertisements[0].offer.rooms + `комнаты для` + advertisements[0].offer.guests + `гостей`;
   const checkinElement = cardElement.querySelector(`.popup__text--time`);
-  checkinElement.textContent = `Заезд после ` + advertisements.offer.checkin + `, выезд до ` + advertisements.offer.checkout;
+  checkinElement.textContent = `Заезд после ` + advertisements[0].offer.checkin + `, выезд до ` + advertisements[0].offer.checkout;
+  const avatarElement = cardElement.querySelector(`.popup__avatar`);
+  avatarElement.src = advertisements[0].author.avatar;
 
   const cardFeatures = cardElement.querySelector(`.popup__features`);
   const featuresFragment = document.createDocumentFragment();
   cardFeatures.innerHTML = ``;
 
-  advertisements.forEach((advertisement) => {
+  advertisements[0].offer.features.forEach((feature) => {
     const featureElement = document.createElement(`li`);
+    featureElement.classList.add(`popup__feature`);
+    switch (feature) {
+      case `wifi`:
+        featureElement.classList.add(`popup__feature--wifi`);
+        break;
+
+      case `dishwasher`:
+        featureElement.classList.add(`popup__feature--dishwasher`);
+        break;
+
+      case `parking`:
+        featureElement.classList.add(`popup__feature--parking`);
+        break;
+
+      case `washer`:
+        featureElement.classList.add(`popup__feature--washer`);
+        break;
+
+      case `elevator`:
+        featureElement.classList.add(`popup__feature--elevator`);
+        break;
+
+      case `conditioner`:
+        featureElement.classList.add(`popup__feature--conditioner`);
+        break;
+    }
     featuresFragment.appendChild(featureElement);
   });
-debugger;
+
   cardFeatures.appendChild(featuresFragment);
+
   const cardPictures = cardElement.querySelector(`.popup__photos`);
+  const picturesFragment = document.createDocumentFragment();
   cardPictures.innerHTML = ``;
 
+  advertisements[0].offer.photos.forEach((photo) => {
+    const pictureElement = document.createElement(`img`);
+    pictureElement.classList.add(`popup__photo`);
+    switch (photo) {
+      case `http://o0.github.io/assets/images/tokyo/hotel1.jpg`:
+        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel1.jpg`;
+        break;
+
+      case `http://o0.github.io/assets/images/tokyo/hotel2.jpg`:
+        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel2.jpg`;
+        break;
+
+      case `http://o0.github.io/assets/images/tokyo/hotel3.jpg`:
+        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel3.jpg`;
+        break;
+    }
+
+    picturesFragment.appendChild(pictureElement);
+  });
+
+  cardPictures.appendChild(picturesFragment);
 };
 
+
 mapElement.appendChild(cardElement);
+createCard();
