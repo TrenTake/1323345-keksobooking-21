@@ -156,26 +156,15 @@ const createCard = () => {
   cardFeatures.appendChild(featuresFragment);
 
   const cardPictures = cardElement.querySelector(`.popup__photos`);
-  const picturesFragment = document.createDocumentFragment();
   cardPictures.innerHTML = ``;
+  const picturesFragment = document.createDocumentFragment();
 
   advertisements[0].offer.photos.forEach((photo) => {
     const pictureElement = document.createElement(`img`);
-    pictureElement.classList.add(`popup__photo`);
-    switch (photo) {
-      case `http://o0.github.io/assets/images/tokyo/hotel1.jpg`:
-        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel1.jpg`;
-        break;
-
-      case `http://o0.github.io/assets/images/tokyo/hotel2.jpg`:
-        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel2.jpg`;
-        break;
-
-      case `http://o0.github.io/assets/images/tokyo/hotel3.jpg`:
-        pictureElement.src = `http://o0.github.io/assets/images/tokyo/hotel3.jpg`;
-        break;
-    }
-
+    pictureElement.width = 45;
+    pictureElement.height = 40;
+    pictureElement.alt = `Фотография жилья`;
+    pictureElement.src = photo;
     picturesFragment.appendChild(pictureElement);
   });
 
