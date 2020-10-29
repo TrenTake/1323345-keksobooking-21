@@ -102,7 +102,6 @@ const cardTemplate = document.querySelector(`#card`);
 const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
 
 const createCard = () => {
-  const mapFilterContainer = document.querySelector(`.map__filters-container`);
   const titleElement = cardElement.querySelector(`.popup__title`);
   titleElement.textContent = advertisements[0].offer.title;
   const addressElement = cardElement.querySelector(`.popup__text--address`);
@@ -161,6 +160,7 @@ const createCard = () => {
 
   advertisements[0].offer.photos.forEach((photo) => {
     const pictureElement = document.createElement(`img`);
+    pictureElement.classList.add(`popup__photo`);
     pictureElement.width = 45;
     pictureElement.height = 40;
     pictureElement.alt = `Фотография жилья`;
