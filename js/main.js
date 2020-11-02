@@ -4,6 +4,17 @@ const photos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0
 const HEIGHT_PIN = 40;
 const WIDTH_PIN = 40;
 
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
+const appConfig = {
+  isActive: false,
+};
+
 /**
   * Перемешивает массив
   * https://learn.javascript.ru/task/shuffle
@@ -75,7 +86,6 @@ const createAdvertisement = () => {
 };
 
 const mapElement = document.querySelector(`.map`);
-mapElement.classList.remove(`map--faded`);
 
 const advertisements = [];
 for (let i = 0; i < 8; i++) {
@@ -92,6 +102,9 @@ advertisements.forEach((advertisement) => {
   pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
   const imgElement = pin.querySelector(`img`);
   imgElement.src = advertisement.author.avatar;
+  pin.addEventListener(`click`, () => {
+    createCard(advertisement);
+  });
   fragment.appendChild(pin);
 });
 
@@ -99,24 +112,23 @@ const blockMap = document.querySelector(`.map__pins`);
 blockMap.appendChild(fragment);
 
 const cardTemplate = document.querySelector(`#card`);
-const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
 
-const createCard = () => {
-  const mapFilterContainer = document.querySelector(`.map__filters-container`);
+const createCard = (advertisement) => {
+  const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
   const titleElement = cardElement.querySelector(`.popup__title`);
-  titleElement.textContent = advertisements[0].offer.title;
+  titleElement.textContent = advertisement.offer.title;
   const addressElement = cardElement.querySelector(`.popup__text--address`);
-  addressElement.textContent = advertisements[0].offer.address;
+  addressElement.textContent = advertisement.offer.address;
   const priceElement = cardElement.querySelector(`.popup__text--price`);
-  priceElement.textContent = advertisements[0].offer.price + `₽/ночь`;
+  priceElement.textContent = advertisement.offer.price + `₽/ночь`;
   const typeElemennt = cardElement.querySelector(`.popup__type`);
-  typeElemennt.textContent = advertisements[0].offer.type;
+  typeElemennt.textContent = advertisement.offer.type;
   const roomElement = cardElement.querySelector(`.popup__text--capacity`);
-  roomElement.textContent = advertisements[0].offer.rooms + `комнаты для` + advertisements[0].offer.guests + `гостей`;
+  roomElement.textContent = advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`;
   const checkinElement = cardElement.querySelector(`.popup__text--time`);
-  checkinElement.textContent = `Заезд после ` + advertisements[0].offer.checkin + `, выезд до ` + advertisements[0].offer.checkout;
+  checkinElement.textContent = `Заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout;
   const avatarElement = cardElement.querySelector(`.popup__avatar`);
-  avatarElement.src = advertisements[0].author.avatar;
+  avatarElement.src = advertisement.author.avatar;
 
   const cardFeatures = cardElement.querySelector(`.popup__features`);
   const featuresFragment = document.createDocumentFragment();
@@ -161,6 +173,7 @@ const createCard = () => {
 
   advertisements[0].offer.photos.forEach((photo) => {
     const pictureElement = document.createElement(`img`);
+    pictureElement.classList.add(`popup__photo`);
     pictureElement.width = 45;
     pictureElement.height = 40;
     pictureElement.alt = `Фотография жилья`;
@@ -169,8 +182,100 @@ const createCard = () => {
   });
 
   cardPictures.appendChild(picturesFragment);
+  mapElement.appendChild(cardElement);
+};
+
+const adForm = document.querySelector(`.ad-form`);
+const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
+
+const activeApp = () => {
+  mapElement.classList.remove(`map--faded`);
+  adForm.classList.remove(`ad-form--disabled`);
+  appConfig.isActive = true;
+  setAddress();
+
+  for (const fieldset of adFormFieldsets) {
+    fieldset.disabled = false;
+  }
+};
+
+const disableApp = () => {
+  mapElement.classList.add(`map--faded`);
+  adForm.classList.add(`ad-form--disabled`);
+
+  for (const fieldset of adFormFieldsets) {
+    fieldset.disabled = true;
+  }
+};
+
+const priceElement = document.querySelector(`#price`);
+const typeHouseElement = document.querySelector(`#type`);
+
+const setPrice = (type) => {
+  priceElement.min = minPrice[type];
+  priceElement.placeholder = minPrice[type];
+};
+
+const mainPinElement = document.querySelector(`.map__pin--main`);
+const addressElement = document.querySelector(`#address`);
+const setAddress = () => {
+  const xCoords = mainPinElement.offsetLeft + mainPinElement.offsetWidth / 2;
+  const yCoords = mainPinElement.offsetTop + mainPinElement.offsetHeight;
+  addressElement.value = xCoords + `, ` + yCoords;
+  if (appConfig.isActive === true) {
+    const yCoordsActive = mainPinElement.offsetTop + mainPinElement.offsetHeight / 2;
+    addressElement.value = xCoords + `, ` + yCoordsActive;
+  }
+};
+
+const roomNumber = document.querySelector(`#room_number`);
+const capacityElement = document.querySelector(`#capacity`);
+
+const roomsAndGuests = () => {
+  if (roomNumber.value < capacityElement.value) {
+    const message = `Количество гостей не соответствует количеству комнат`;
+    capacityElement.setCustomValidity(message);
+  } else if ((roomNumber.value !== `100` && capacityElement.value === `0`) || (roomNumber.value === `100` && capacityElement.value !== `0`)) {
+    const message = `100 комнат не для гостей`;
+    capacityElement.setCustomValidity(message);
+  } else {
+    const message = ``;
+    capacityElement.setCustomValidity(message);
+  }
+};
+
+const timeInElement = document.querySelector(`#timein`);
+const timeOutElement = document.querySelector(`#timeout`);
+
+const setTimeInOut = (select, time) => {
+  select.value = time;
 };
 
 
-mapElement.appendChild(cardElement);
-createCard();
+disableApp();
+setAddress();
+roomsAndGuests();
+
+mainPinElement.addEventListener(`mousedown`, (evt) => {
+  if (evt.which === 1) {
+    activeApp();
+  }
+});
+
+mainPinElement.addEventListener(`keydown`, (evt) => {
+  if (evt.keyCode === 13) {
+    activeApp();
+  }
+});
+
+typeHouseElement.addEventListener(`change`, (evt) => {
+  setPrice(evt.target.value);
+});
+
+timeInElement.addEventListener(`change`, (evt) => {
+  setTimeInOut(timeOutElement, evt.target.value);
+});
+
+timeOutElement.addEventListener(`change`, (evt) => {
+  setTimeInOut(timeInElement, evt.target.value);
+});
