@@ -95,37 +95,58 @@ for (let i = 0; i < 8; i++) {
 
 const fragment = document.createDocumentFragment();
 
-advertisements.forEach((advertisement) => {
-  const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
+const pinShow = () => {
+  advertisements.forEach((advertisement) => {
+    const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
 
-  pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
-  pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
-  const imgElement = pin.querySelector(`img`);
-  imgElement.src = advertisement.author.avatar;
-  fragment.appendChild(pin);
-});
+    pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
+    pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
+    const imgElement = pin.querySelector(`img`);
+    imgElement.src = advertisement.author.avatar;
+    pin.addEventListener(`click`, () => {
+      openCard(advertisement);
+    });
+    fragment.appendChild(pin);
+  });
 
-const blockMap = document.querySelector(`.map__pins`);
-blockMap.appendChild(fragment);
+  const blockMap = document.querySelector(`.map__pins`);
+  blockMap.appendChild(fragment);
+};
+
 
 const cardTemplate = document.querySelector(`#card`);
-const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
 
-const createCard = () => {
+const openCard = (advertisement) => {
+  const cardElement = document.querySelector(`article`);
+  if (cardElement) {
+    cardElement.remove();
+    createCard(advertisement);
+  } else {
+    createCard(advertisement);
+  }
+};
+
+const closeCard = (card) => {
+  card.classList.add(`hidden`);
+};
+
+
+const createCard = (advertisement) => {
+  const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
   const titleElement = cardElement.querySelector(`.popup__title`);
-  titleElement.textContent = advertisements[0].offer.title;
+  titleElement.textContent = advertisement.offer.title;
   const addressElement = cardElement.querySelector(`.popup__text--address`);
-  addressElement.textContent = advertisements[0].offer.address;
+  addressElement.textContent = advertisement.offer.address;
   const priceElement = cardElement.querySelector(`.popup__text--price`);
-  priceElement.textContent = advertisements[0].offer.price + `₽/ночь`;
+  priceElement.textContent = advertisement.offer.price + `₽/ночь`;
   const typeElemennt = cardElement.querySelector(`.popup__type`);
-  typeElemennt.textContent = advertisements[0].offer.type;
+  typeElemennt.textContent = advertisement.offer.type;
   const roomElement = cardElement.querySelector(`.popup__text--capacity`);
-  roomElement.textContent = advertisements[0].offer.rooms + `комнаты для` + advertisements[0].offer.guests + `гостей`;
+  roomElement.textContent = advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`;
   const checkinElement = cardElement.querySelector(`.popup__text--time`);
-  checkinElement.textContent = `Заезд после ` + advertisements[0].offer.checkin + `, выезд до ` + advertisements[0].offer.checkout;
+  checkinElement.textContent = `Заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout;
   const avatarElement = cardElement.querySelector(`.popup__avatar`);
-  avatarElement.src = advertisements[0].author.avatar;
+  avatarElement.src = advertisement.author.avatar;
 
   const cardFeatures = cardElement.querySelector(`.popup__features`);
   const featuresFragment = document.createDocumentFragment();
@@ -178,12 +199,20 @@ const createCard = () => {
     picturesFragment.appendChild(pictureElement);
   });
 
+  const closeButton = cardElement.querySelector(`.popup__close`);
+  closeButton.addEventListener(`mousedown`, () => {
+    closeCard(cardElement);
+  });
+
+  document.addEventListener(`keydown`, (evt) => {
+    if (evt.keyCode === 27) {
+      closeCard(cardElement);
+    }
+  });
+
   cardPictures.appendChild(picturesFragment);
+  mapElement.appendChild(cardElement);
 };
-
-
-mapElement.appendChild(cardElement);
-createCard();
 
 const adForm = document.querySelector(`.ad-form`);
 const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
@@ -193,6 +222,7 @@ const activeApp = () => {
   adForm.classList.remove(`ad-form--disabled`);
   appConfig.isActive = true;
   setAddress();
+  pinShow();
 
   for (const fieldset of adFormFieldsets) {
     fieldset.disabled = false;
@@ -244,6 +274,14 @@ const roomsAndGuests = () => {
   }
 };
 
+const timeInElement = document.querySelector(`#timein`);
+const timeOutElement = document.querySelector(`#timeout`);
+
+const setTimeInOut = (select, time) => {
+  select.value = time;
+};
+
+
 disableApp();
 setAddress();
 roomsAndGuests();
@@ -262,4 +300,12 @@ mainPinElement.addEventListener(`keydown`, (evt) => {
 
 typeHouseElement.addEventListener(`change`, (evt) => {
   setPrice(evt.target.value);
+});
+
+timeInElement.addEventListener(`change`, (evt) => {
+  setTimeInOut(timeOutElement, evt.target.value);
+});
+
+timeOutElement.addEventListener(`change`, (evt) => {
+  setTimeInOut(timeInElement, evt.target.value);
 });
