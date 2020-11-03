@@ -4,6 +4,17 @@ const photos = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`, `http://o0
 const HEIGHT_PIN = 40;
 const WIDTH_PIN = 40;
 
+const minPrice = {
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
+};
+
+const appConfig = {
+  isActive: false,
+};
+
 /**
   * Перемешивает массив
   * https://learn.javascript.ru/task/shuffle
@@ -75,7 +86,6 @@ const createAdvertisement = () => {
 };
 
 const mapElement = document.querySelector(`.map`);
-mapElement.classList.remove(`map--faded`);
 
 const advertisements = [];
 for (let i = 0; i < 8; i++) {
@@ -102,7 +112,6 @@ const cardTemplate = document.querySelector(`#card`);
 const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
 
 const createCard = () => {
-  const mapFilterContainer = document.querySelector(`.map__filters-container`);
   const titleElement = cardElement.querySelector(`.popup__title`);
   titleElement.textContent = advertisements[0].offer.title;
   const addressElement = cardElement.querySelector(`.popup__text--address`);
@@ -161,6 +170,7 @@ const createCard = () => {
 
   advertisements[0].offer.photos.forEach((photo) => {
     const pictureElement = document.createElement(`img`);
+    pictureElement.classList.add(`popup__photo`);
     pictureElement.width = 45;
     pictureElement.height = 40;
     pictureElement.alt = `Фотография жилья`;
@@ -174,3 +184,82 @@ const createCard = () => {
 
 mapElement.appendChild(cardElement);
 createCard();
+
+const adForm = document.querySelector(`.ad-form`);
+const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
+
+const activeApp = () => {
+  mapElement.classList.remove(`map--faded`);
+  adForm.classList.remove(`ad-form--disabled`);
+  appConfig.isActive = true;
+  setAddress();
+
+  for (const fieldset of adFormFieldsets) {
+    fieldset.disabled = false;
+  }
+};
+
+const disableApp = () => {
+  mapElement.classList.add(`map--faded`);
+  adForm.classList.add(`ad-form--disabled`);
+
+  for (const fieldset of adFormFieldsets) {
+    fieldset.disabled = true;
+  }
+};
+
+const priceElement = document.querySelector(`#price`);
+const typeHouseElement = document.querySelector(`#type`);
+
+const setPrice = (type) => {
+  priceElement.min = minPrice[type];
+  priceElement.placeholder = minPrice[type];
+};
+
+const mainPinElement = document.querySelector(`.map__pin--main`);
+const addressElement = document.querySelector(`#address`);
+const setAddress = () => {
+  const xCoords = mainPinElement.offsetLeft + mainPinElement.offsetWidth / 2;
+  const yCoords = mainPinElement.offsetTop + mainPinElement.offsetHeight;
+  addressElement.value = xCoords + `, ` + yCoords;
+  if (appConfig.isActive === true) {
+    const yCoordsActive = mainPinElement.offsetTop + mainPinElement.offsetHeight / 2;
+    addressElement.value = xCoords + `, ` + yCoordsActive;
+  }
+};
+
+const roomNumber = document.querySelector(`#room_number`);
+const capacityElement = document.querySelector(`#capacity`);
+
+const roomsAndGuests = () => {
+  if (roomNumber.value < capacityElement.value) {
+    const message = `Количество гостей не соответствует количеству комнат`;
+    capacityElement.setCustomValidity(message);
+  } else if ((roomNumber.value !== `100` && capacityElement.value === `0`) || (roomNumber.value === `100` && capacityElement.value !== `0`)) {
+    const message = `100 комнат не для гостей`;
+    capacityElement.setCustomValidity(message);
+  } else {
+    const message = ``;
+    capacityElement.setCustomValidity(message);
+  }
+};
+
+disableApp();
+setAddress();
+roomsAndGuests();
+
+mainPinElement.addEventListener(`mousedown`, (evt) => {
+  if (evt.which === 1) {
+    activeApp();
+  }
+});
+
+mainPinElement.addEventListener(`keydown`, (evt) => {
+  if (evt.keyCode === 13) {
+    activeApp();
+  }
+});
+
+typeHouseElement.addEventListener(`change`, (evt) => {
+  setPrice(evt.target.value);
+});
