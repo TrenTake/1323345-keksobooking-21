@@ -95,23 +95,41 @@ for (let i = 0; i < 8; i++) {
 
 const fragment = document.createDocumentFragment();
 
-advertisements.forEach((advertisement) => {
-  const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
+const pinShow = () => {
+  advertisements.forEach((advertisement) => {
+    const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
 
-  pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
-  pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
-  const imgElement = pin.querySelector(`img`);
-  imgElement.src = advertisement.author.avatar;
-  pin.addEventListener(`click`, () => {
-    createCard(advertisement);
+    pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
+    pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
+    const imgElement = pin.querySelector(`img`);
+    imgElement.src = advertisement.author.avatar;
+    pin.addEventListener(`click`, () => {
+      openCard(advertisement);
+    });
+    fragment.appendChild(pin);
   });
-  fragment.appendChild(pin);
-});
 
-const blockMap = document.querySelector(`.map__pins`);
-blockMap.appendChild(fragment);
+  const blockMap = document.querySelector(`.map__pins`);
+  blockMap.appendChild(fragment);
+};
+
 
 const cardTemplate = document.querySelector(`#card`);
+
+const openCard = (advertisement) => {
+  const cardElement = document.querySelector(`article`);
+  if (cardElement) {
+    cardElement.remove();
+    createCard(advertisement);
+  } else {
+    createCard(advertisement);
+  }
+};
+
+const closeCard = (card) => {
+  card.classList.add(`hidden`);
+};
+
 
 const createCard = (advertisement) => {
   const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
@@ -181,6 +199,17 @@ const createCard = (advertisement) => {
     picturesFragment.appendChild(pictureElement);
   });
 
+  const closeButton = cardElement.querySelector(`.popup__close`);
+  closeButton.addEventListener(`mousedown`, () => {
+    closeCard(cardElement);
+  });
+
+  document.addEventListener(`keydown`, (evt) => {
+    if (evt.keyCode === 27) {
+      closeCard(cardElement);
+    }
+  });
+
   cardPictures.appendChild(picturesFragment);
   mapElement.appendChild(cardElement);
 };
@@ -193,6 +222,7 @@ const activeApp = () => {
   adForm.classList.remove(`ad-form--disabled`);
   appConfig.isActive = true;
   setAddress();
+  pinShow();
 
   for (const fieldset of adFormFieldsets) {
     fieldset.disabled = false;
