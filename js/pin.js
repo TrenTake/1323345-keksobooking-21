@@ -13,7 +13,7 @@
       const imgElement = pin.querySelector(`img`);
       imgElement.src = advertisement.author.avatar;
       pin.addEventListener(`click`, () => {
-        window.card.openCard(advertisement);
+        window.map.openCard(advertisement);
       });
       fragment.appendChild(pin);
     });
@@ -26,13 +26,13 @@
 
   mainPinElement.addEventListener(`mousedown`, (evt) => {
     if (evt.which === 1) {
-      window.data.activeApp();
+      window.main.activeApp();
     }
   });
 
   mainPinElement.addEventListener(`keydown`, (evt) => {
     if (evt.keyCode === 13) {
-      window.data.activeApp();
+      window.main.activeApp();
     }
   });
 
