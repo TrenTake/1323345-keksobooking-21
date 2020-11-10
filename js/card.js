@@ -3,30 +3,6 @@
 (() => {
   const cardTemplate = document.querySelector(`#card`);
 
-  const openCard = (advertisement) => {
-    const cardElement = document.querySelector(`article`);
-    if (cardElement) {
-      closeCard(cardElement);
-      createCard(advertisement);
-    } else {
-      createCard(advertisement);
-    }
-  };
-
-  const onEscClose = (evt) => {
-    const cardElement = document.querySelector(`.map__card`);
-    if (evt.key === `Escape`) {
-      closeCard(cardElement);
-    }
-  };
-
-
-  const closeCard = (card) => {
-    document.removeEventListener(`keydown`, onEscClose);
-    card.remove();
-  };
-
-
   const createCard = (advertisement) => {
     const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
     const titleElement = cardElement.querySelector(`.popup__title`);
@@ -97,10 +73,10 @@
 
     const closeButton = cardElement.querySelector(`.popup__close`);
     closeButton.addEventListener(`mousedown`, () => {
-      closeCard(cardElement);
+      window.map.closeCard(cardElement);
     });
 
-    document.addEventListener(`keydown`, onEscClose);
+    document.addEventListener(`keydown`, window.map.onEscClose);
 
     cardPictures.appendChild(picturesFragment);
     window.map.mapElement.appendChild(cardElement);
@@ -108,9 +84,6 @@
 
   window.card = {
     cardTemplate,
-    openCard,
-    onEscClose,
-    closeCard,
     createCard,
   };
 })();
