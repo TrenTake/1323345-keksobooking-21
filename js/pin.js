@@ -7,9 +7,10 @@
     const fragment = document.createDocumentFragment();
     advertisements.forEach((advertisement) => {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
-
-      pin.style.top = (advertisement.location.y - window.data.HEIGHT_PIN) + `px`;
-      pin.style.left = (advertisement.location.x - window.data.WIDTH_PIN / 2) + `px`;
+      const HEIGHT_PIN = 40;
+      const WIDTH_PIN = 40;
+      pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
+      pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);
       imgElement.src = advertisement.author.avatar;
       pin.addEventListener(`click`, () => {
@@ -22,6 +23,19 @@
     blockMap.appendChild(fragment);
   };
 
+  const onErrorLoad = (errorMessage) => {
+    const errorElement = document.querySelector(`#error`).content.querySelector(`.error`);
+    const errorTemplate = errorElement.cloneNode(true).content.querySelector(`.error`);
+    errorTemplate.querySelector(`.error__message`).textContent = errorMessage;
+    const errorButton = errorTemplate.querySelector(`.error__button`);
+
+    const onMessageClick = () => {
+      errorTemplate.setAttribute(`hidden`, ``);
+    };
+
+    errorButton.addEventListener(`click`, onMessageClick);
+  };
+
   const mainPinElement = document.querySelector(`.map__pin--main`);
 
   mainPinElement.addEventListener(`mousedown`, (evt) => {
@@ -31,7 +45,7 @@
         window.loadUnload.load((advertisements) => {
           window.pin.pinShow(advertisements);
           window.main.appConfig.withData = true;
-        });
+        }, onErrorLoad);
       }
     }
   });
@@ -52,5 +66,6 @@
     pinTemplate,
     pinShow,
     mainPinElement,
+    onErrorLoad,
   };
 })();

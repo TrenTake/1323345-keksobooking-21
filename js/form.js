@@ -9,8 +9,15 @@
   const typeHouseElement = document.querySelector(`#type`);
 
   const setPrice = (type) => {
-    priceElement.min = window.data.minPrice[type];
-    priceElement.placeholder = window.data.minPrice[type];
+    const minPrice = {
+      bungalow: 0,
+      flat: 1000,
+      house: 5000,
+      palace: 10000
+    };
+
+    priceElement.min = minPrice[type];
+    priceElement.placeholder = minPrice[type];
   };
 
   const addressElement = document.querySelector(`#address`);

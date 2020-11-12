@@ -2,13 +2,13 @@
 
 (() => {
   const URL_POST = `https://21.javascript.pages.academy/keksobooking`;
-  const URL_GET = `https://21.javascript.pages.academy/keksobooking/data`;
+  const URL_GET = `https://21.javascript.pages.academy/keksobooking/daa`;
 
   const load = (onLoad, onError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    xhr.addEventListener(`load`, () => {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
@@ -16,11 +16,11 @@
       }
     });
 
-    xhr.addEventListener(`error`, function () {
+    xhr.addEventListener(`error`, () => {
       onError(`Произошла ошибка соединения`);
     });
 
-    xhr.addEventListener(`timeout`, function () {
+    xhr.addEventListener(`timeout`, () => {
       onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
     });
 
@@ -34,7 +34,7 @@
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
-    xhr.addEventListener(`load`, function () {
+    xhr.addEventListener(`load`, () => {
       if (xhr.status === 200) {
         onLoad(xhr.response);
       } else {
@@ -42,7 +42,7 @@
       }
     });
 
-    xhr.addEventListener(`error`, function () {
+    xhr.addEventListener(`error`, () => {
       onError(`Произошла ошибка соединения`);
     });
 
