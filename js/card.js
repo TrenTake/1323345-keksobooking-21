@@ -24,62 +24,64 @@
     const featuresFragment = document.createDocumentFragment();
     cardFeatures.innerHTML = ``;
 
-    window.data.advertisements[0].offer.features.forEach((feature) => {
-      const featureElement = document.createElement(`li`);
-      featureElement.classList.add(`popup__feature`);
-      switch (feature) {
-        case `wifi`:
-          featureElement.classList.add(`popup__feature--wifi`);
-          break;
+    window.loadUnload.load((advertisements) => {
+      advertisements[0].offer.features.forEach((feature) => {
+        const featureElement = document.createElement(`li`);
+        featureElement.classList.add(`popup__feature`);
+        switch (feature) {
+          case `wifi`:
+            featureElement.classList.add(`popup__feature--wifi`);
+            break;
 
-        case `dishwasher`:
-          featureElement.classList.add(`popup__feature--dishwasher`);
-          break;
+          case `dishwasher`:
+            featureElement.classList.add(`popup__feature--dishwasher`);
+            break;
 
-        case `parking`:
-          featureElement.classList.add(`popup__feature--parking`);
-          break;
+          case `parking`:
+            featureElement.classList.add(`popup__feature--parking`);
+            break;
 
-        case `washer`:
-          featureElement.classList.add(`popup__feature--washer`);
-          break;
+          case `washer`:
+            featureElement.classList.add(`popup__feature--washer`);
+            break;
 
-        case `elevator`:
-          featureElement.classList.add(`popup__feature--elevator`);
-          break;
+          case `elevator`:
+            featureElement.classList.add(`popup__feature--elevator`);
+            break;
 
-        case `conditioner`:
-          featureElement.classList.add(`popup__feature--conditioner`);
-          break;
-      }
-      featuresFragment.appendChild(featureElement);
+          case `conditioner`:
+            featureElement.classList.add(`popup__feature--conditioner`);
+            break;
+        }
+        featuresFragment.appendChild(featureElement);
+      });
+
+      cardFeatures.appendChild(featuresFragment);
+
+      const cardPictures = cardElement.querySelector(`.popup__photos`);
+      cardPictures.innerHTML = ``;
+      const picturesFragment = document.createDocumentFragment();
+
+      advertisements[0].offer.photos.forEach((photo) => {
+        const pictureElement = document.createElement(`img`);
+        pictureElement.classList.add(`popup__photo`);
+        pictureElement.width = 45;
+        pictureElement.height = 40;
+        pictureElement.alt = `Фотография жилья`;
+        pictureElement.src = photo;
+        picturesFragment.appendChild(pictureElement);
+      });
+
+      const closeButton = cardElement.querySelector(`.popup__close`);
+      closeButton.addEventListener(`mousedown`, () => {
+        window.map.closeCard(cardElement);
+      });
+
+      document.addEventListener(`keydown`, window.map.onEscClose);
+
+      cardPictures.appendChild(picturesFragment);
+      window.map.mapElement.appendChild(cardElement);
     });
-
-    cardFeatures.appendChild(featuresFragment);
-
-    const cardPictures = cardElement.querySelector(`.popup__photos`);
-    cardPictures.innerHTML = ``;
-    const picturesFragment = document.createDocumentFragment();
-
-    window.data.advertisements[0].offer.photos.forEach((photo) => {
-      const pictureElement = document.createElement(`img`);
-      pictureElement.classList.add(`popup__photo`);
-      pictureElement.width = 45;
-      pictureElement.height = 40;
-      pictureElement.alt = `Фотография жилья`;
-      pictureElement.src = photo;
-      picturesFragment.appendChild(pictureElement);
-    });
-
-    const closeButton = cardElement.querySelector(`.popup__close`);
-    closeButton.addEventListener(`mousedown`, () => {
-      window.map.closeCard(cardElement);
-    });
-
-    document.addEventListener(`keydown`, window.map.onEscClose);
-
-    cardPictures.appendChild(picturesFragment);
-    window.map.mapElement.appendChild(cardElement);
   };
 
   window.card = {
