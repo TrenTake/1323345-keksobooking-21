@@ -24,16 +24,29 @@
   };
 
   const onErrorLoad = (errorMessage) => {
-    const errorElement = document.querySelector(`#error`).content.querySelector(`.error`);
-    const errorTemplate = errorElement.cloneNode(true).content.querySelector(`.error`);
-    errorTemplate.querySelector(`.error__message`).textContent = errorMessage;
-    const errorButton = errorTemplate.querySelector(`.error__button`);
+    const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
+    const errorMessageElement = errorElement.querySelector(`.error__message`);
+    const errorButtonElement = errorElement.querySelector(`.error__button`);
+    errorButtonElement.remove();
+    errorMessageElement.textContent = errorMessage;
 
-    const onMessageClick = () => {
-      errorTemplate.setAttribute(`hidden`, ``);
+    const closeMessage = () => {
+      errorElement.remove();
+      document.removeEventListener(`keydown`, onPopupEsc);
     };
 
-    errorButton.addEventListener(`click`, onMessageClick);
+    errorElement.addEventListener(`click`, () => {
+      closeMessage();
+    });
+
+    const onPopupEsc = (evt) => {
+      if (evt.key === `Escape`) {
+        closeMessage();
+      }
+    };
+
+    document.addEventListener(`keydown`, onPopupEsc);
+    document.body.appendChild(errorElement);
   };
 
   const mainPinElement = document.querySelector(`.map__pin--main`);
