@@ -6,7 +6,6 @@
     window.form.adForm.classList.remove(`ad-form--disabled`);
     appConfig.isActive = true;
     window.form.setAddress();
-    window.pin.pinShow();
 
     for (const fieldset of window.form.adFormFieldsets) {
       fieldset.disabled = false;
@@ -24,6 +23,7 @@
 
   const appConfig = {
     isActive: false,
+    withData: false,
   };
 
   window.main = {

@@ -24,7 +24,7 @@
     const featuresFragment = document.createDocumentFragment();
     cardFeatures.innerHTML = ``;
 
-    window.data.advertisements[0].offer.features.forEach((feature) => {
+    advertisement.offer.features.forEach((feature) => {
       const featureElement = document.createElement(`li`);
       featureElement.classList.add(`popup__feature`);
       switch (feature) {
@@ -61,7 +61,7 @@
     cardPictures.innerHTML = ``;
     const picturesFragment = document.createDocumentFragment();
 
-    window.data.advertisements[0].offer.photos.forEach((photo) => {
+    advertisement.offer.photos.forEach((photo) => {
       const pictureElement = document.createElement(`img`);
       pictureElement.classList.add(`popup__photo`);
       pictureElement.width = 45;

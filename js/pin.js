@@ -3,13 +3,14 @@
 (() => {
   const pinTemplate = document.querySelector(`#pin`);
 
-  const pinShow = () => {
+  const pinShow = (advertisements) => {
     const fragment = document.createDocumentFragment();
-    window.data.advertisements.forEach((advertisement) => {
+    advertisements.forEach((advertisement) => {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
-
-      pin.style.top = (advertisement.location.y - window.data.HEIGHT_PIN) + `px`;
-      pin.style.left = (advertisement.location.x - window.data.WIDTH_PIN / 2) + `px`;
+      const HEIGHT_PIN = 40;
+      const WIDTH_PIN = 40;
+      pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
+      pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);
       imgElement.src = advertisement.author.avatar;
       pin.addEventListener(`click`, () => {
@@ -22,17 +23,55 @@
     blockMap.appendChild(fragment);
   };
 
+  const onErrorLoad = (errorMessage) => {
+    const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
+    const errorMessageElement = errorElement.querySelector(`.error__message`);
+    const errorButtonElement = errorElement.querySelector(`.error__button`);
+    errorButtonElement.remove();
+    errorMessageElement.textContent = errorMessage;
+
+    const closeMessage = () => {
+      errorElement.remove();
+      document.removeEventListener(`keydown`, onPopupEsc);
+    };
+
+    errorElement.addEventListener(`click`, () => {
+      closeMessage();
+    });
+
+    const onPopupEsc = (evt) => {
+      if (evt.key === `Escape`) {
+        closeMessage();
+      }
+    };
+
+    document.addEventListener(`keydown`, onPopupEsc);
+    document.body.appendChild(errorElement);
+  };
+
   const mainPinElement = document.querySelector(`.map__pin--main`);
 
   mainPinElement.addEventListener(`mousedown`, (evt) => {
     if (evt.which === 1) {
       window.main.activeApp();
+      if (!window.main.appConfig.withData) {
+        window.loadUnload.load((advertisements) => {
+          window.pin.pinShow(advertisements);
+          window.main.appConfig.withData = true;
+        }, onErrorLoad);
+      }
     }
   });
 
   mainPinElement.addEventListener(`keydown`, (evt) => {
     if (evt.keyCode === 13) {
       window.main.activeApp();
+      if (!window.main.appConfig.withData) {
+        window.loadUnload.load((advertisements) => {
+          window.pin.pinShow(advertisements);
+          window.main.appConfig.withData = true;
+        });
+      }
     }
   });
 
@@ -40,5 +79,6 @@
     pinTemplate,
     pinShow,
     mainPinElement,
+    onErrorLoad,
   };
 })();
