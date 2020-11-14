@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const URL_POST = `https://21.javascript.pages.academy/keksobooking`;
+  const URL_POST = `https://21.javascript.pages.academy/eksobooking`;
   const URL_GET = `https://21.javascript.pages.academy/keksobooking/data`;
 
   const load = (onLoad, onError) => {

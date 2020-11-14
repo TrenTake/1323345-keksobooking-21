@@ -107,6 +107,37 @@
     document.body.appendChild(messageElement);
   };
 
+  const showErrorMessage = (errorMessage) => {
+    const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
+    const errorMessageElement = errorElement.querySelector(`.error__message`);
+    errorMessageElement.textContent = errorMessage;
+
+    const closeMessage = () => {
+      errorElement.remove();
+      document.removeEventListener(`keydown`, onPopupEsc);
+    };
+
+    errorElement.addEventListener(`click`, () => {
+      closeMessage();
+    });
+
+    const onPopupEsc = (evt) => {
+      if (evt.key === `Escape`) {
+        closeMessage();
+      }
+    };
+
+    document.addEventListener(`keydown`, onPopupEsc);
+    document.body.appendChild(errorElement);
+  };
+
+  const resetButton = adForm.querySelector(`.ad-form__reset`);
+  resetButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    resetForm();
+  });
+
+
   adForm.addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     const data = new FormData(adForm);
@@ -118,9 +149,8 @@
       window.main.disableApp();
       window.main.appConfig.withData = false;
       showSuccessMessage();
-      // вывод сообщения об успехе
     }, () => {
-      // ошибка
+      showErrorMessage();
     });
   });
 
