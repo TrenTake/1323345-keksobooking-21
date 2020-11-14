@@ -23,6 +23,13 @@
     blockMap.appendChild(fragment);
   };
 
+  const clearPin = () => {
+    const pins = document.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    pins.forEach((pin) => {
+      pin.remove();
+    });
+  };
+
   const onErrorLoad = (errorMessage) => {
     const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
     const errorMessageElement = errorElement.querySelector(`.error__message`);
@@ -56,7 +63,7 @@
       window.main.activeApp();
       if (!window.main.appConfig.withData) {
         window.loadUnload.load((advertisements) => {
-          window.pin.pinShow(advertisements);
+          pinShow(advertisements);
           window.main.appConfig.withData = true;
         }, onErrorLoad);
       }
@@ -80,5 +87,6 @@
     pinShow,
     mainPinElement,
     onErrorLoad,
+    clearPin,
   };
 })();
