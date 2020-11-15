@@ -1,23 +1,25 @@
 'use strict';
 
 (() => {
+  const PIN_MAX_COUNT = 5;
   const pinTemplate = document.querySelector(`#pin`);
+  const mainPinElement = document.querySelector(`.map__pin--main`);
 
-  const pinShow = (advertisements) => {
+  const pinShow = (data) => {
     const fragment = document.createDocumentFragment();
-    advertisements.forEach((advertisement) => {
+    for (let i = 0; i < data.length && i < PIN_MAX_COUNT; i++) {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
       const HEIGHT_PIN = 40;
       const WIDTH_PIN = 40;
-      pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
-      pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
+      pin.style.top = (data[i].location.y - HEIGHT_PIN) + `px`;
+      pin.style.left = (data[i].location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);
-      imgElement.src = advertisement.author.avatar;
+      imgElement.src = data[i].author.avatar;
       pin.addEventListener(`click`, () => {
-        window.map.openCard(advertisement);
+        window.map.openCard(data[i]);
       });
       fragment.appendChild(pin);
-    });
+    }
 
     const blockMap = document.querySelector(`.map__pins`);
     blockMap.appendChild(fragment);
@@ -30,7 +32,7 @@
     });
   };
 
-  const onErrorLoad = (errorMessage) => {
+  const showErrorMessage = (errorMessage) => {
     const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
     const errorMessageElement = errorElement.querySelector(`.error__message`);
     const errorButtonElement = errorElement.querySelector(`.error__button`);
@@ -56,16 +58,18 @@
     document.body.appendChild(errorElement);
   };
 
-  const mainPinElement = document.querySelector(`.map__pin--main`);
-
   mainPinElement.addEventListener(`mousedown`, (evt) => {
     if (evt.which === 1) {
       window.main.activeApp();
       if (!window.main.appConfig.withData) {
-        window.loadUnload.load((advertisements) => {
-          pinShow(advertisements);
-          window.main.appConfig.withData = true;
-        }, onErrorLoad);
+        window.api.loadAdvertisement(
+            (response) => {
+              window.pin.advertisements = response;
+              pinShow(window.pin.advertisements);
+              window.main.appConfig.withData = true;
+            },
+            showErrorMessage
+        );
       }
     }
   });
@@ -74,8 +78,9 @@
     if (evt.keyCode === 13) {
       window.main.activeApp();
       if (!window.main.appConfig.withData) {
-        window.loadUnload.load((advertisements) => {
-          window.pin.pinShow(advertisements);
+        window.api.loadAdvertisement((response) => {
+          window.pin.advertisements = response;
+          pinShow(window.pin.advertisements);
           window.main.appConfig.withData = true;
         });
       }
@@ -86,7 +91,9 @@
     pinTemplate,
     pinShow,
     mainPinElement,
-    onErrorLoad,
+    showErrorMessage,
     clearPin,
+    advertisements: [],
+    PIN_MAX_COUNT,
   };
 })();
