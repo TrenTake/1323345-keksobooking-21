@@ -30,7 +30,7 @@
     });
   };
 
-  const onErrorLoad = (errorMessage) => {
+  const showErrorMessage = (errorMessage) => {
     const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
     const errorMessageElement = errorElement.querySelector(`.error__message`);
     const errorButtonElement = errorElement.querySelector(`.error__button`);
@@ -62,10 +62,10 @@
     if (evt.which === 1) {
       window.main.activeApp();
       if (!window.main.appConfig.withData) {
-        window.loadUnload.load((advertisements) => {
+        window.api.loadAdvertisement((advertisements) => {
           pinShow(advertisements);
           window.main.appConfig.withData = true;
-        }, onErrorLoad);
+        }, showErrorMessage);
       }
     }
   });
@@ -74,7 +74,7 @@
     if (evt.keyCode === 13) {
       window.main.activeApp();
       if (!window.main.appConfig.withData) {
-        window.loadUnload.load((advertisements) => {
+        window.api.loadAdvertisement((advertisements) => {
           window.pin.pinShow(advertisements);
           window.main.appConfig.withData = true;
         });
@@ -86,7 +86,7 @@
     pinTemplate,
     pinShow,
     mainPinElement,
-    onErrorLoad,
+    showErrorMessage,
     clearPin,
   };
 })();

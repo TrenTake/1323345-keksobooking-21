@@ -107,10 +107,8 @@
     document.body.appendChild(messageElement);
   };
 
-  const showErrorMessage = (errorMessage) => {
+  const showErrorMessage = () => {
     const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
-    const errorMessageElement = errorElement.querySelector(`.error__message`);
-    errorMessageElement.textContent = errorMessage;
 
     const closeMessage = () => {
       errorElement.remove();
@@ -142,7 +140,7 @@
     evt.preventDefault();
     const data = new FormData(adForm);
 
-    window.loadUnload.upload(data, () => {
+    window.api.uploadAdvertisement(data, () => {
       window.pin.clearPin();
       dropMainPin();
       resetForm();
