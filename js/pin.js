@@ -1,23 +1,24 @@
 'use strict';
 
 (() => {
+  const PIN_MAX_COUNT = 5;
   const pinTemplate = document.querySelector(`#pin`);
 
   const pinShow = (advertisements) => {
     const fragment = document.createDocumentFragment();
-    advertisements.forEach((advertisement) => {
+    for (let i = 0; i < advertisements.length && i < PIN_MAX_COUNT; i++) {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
       const HEIGHT_PIN = 40;
       const WIDTH_PIN = 40;
-      pin.style.top = (advertisement.location.y - HEIGHT_PIN) + `px`;
-      pin.style.left = (advertisement.location.x - WIDTH_PIN / 2) + `px`;
+      pin.style.top = (advertisements[i].location.y - HEIGHT_PIN) + `px`;
+      pin.style.left = (advertisements[i].location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);
-      imgElement.src = advertisement.author.avatar;
+      imgElement.src = advertisements[i].author.avatar;
       pin.addEventListener(`click`, () => {
-        window.map.openCard(advertisement);
+        window.map.openCard(advertisements[i]);
       });
       fragment.appendChild(pin);
-    });
+    }
 
     const blockMap = document.querySelector(`.map__pins`);
     blockMap.appendChild(fragment);
