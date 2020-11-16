@@ -82,7 +82,7 @@
         break;
       }
     }
-    window.pin.pinShow(filteredAdvertisements);
+    return filteredAdvertisements;
   };
 
   featureFieldsetElement.addEventListener(`change`, () => {
@@ -105,10 +105,10 @@
     filterAdvertisement();
   });
 
-  const filterPins = window.utils.debounce(() => {
+  const filterPins = () => {
     const filteredAdverts = filterAdvertisement();
     window.pin.pinShow(filteredAdverts);
-  }, 300);
+  };
 
   filterForm.addEventListener(`change`, () => {
     filterPins();

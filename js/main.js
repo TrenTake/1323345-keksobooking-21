@@ -31,6 +31,8 @@
     });
 
     window.filter.featureFieldsetElement.disabled = true;
+    window.map.closeCard();
+    window.filter.filterForm.reset();
   };
 
   window.form.setAddress();
