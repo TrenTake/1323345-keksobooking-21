@@ -26,13 +26,13 @@
       };
 
       const newCoords = {
-        x: window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.clientWidth / 2 - shift.x,
-        y: window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.clientHeight - shift.y,
+        x: window.pin.mainPinElement.offsetLeft - shift.x,
+        y: window.pin.mainPinElement.offsetTop - shift.y,
       };
 
       if (newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth && newCoords.y > 130 && newCoords.y < 630) {
-        window.pin.mainPinElement.style.left = window.pin.mainPinElement.offsetLeft - shift.x + `px`;
-        window.pin.mainPinElement.style.top = window.pin.mainPinElement.offsetTop - shift.y + `px`;
+        window.pin.mainPinElement.style.left = newCoords.x + `px`;
+        window.pin.mainPinElement.style.top = newCoords.y + `px`;
       }
     };
 

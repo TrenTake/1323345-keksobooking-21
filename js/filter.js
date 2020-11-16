@@ -7,6 +7,7 @@
   const roomInput = filterForm.querySelector(`#housing-rooms`);
   const guestInput = filterForm.querySelector(`#housing-guests`);
   const featureFieldsetElement = filterForm.querySelector(`#housing-features`);
+  const filterElements = filterForm.querySelectorAll(`.map__filter`);
 
   const Price = {
     ANY: `any`,
@@ -108,4 +109,18 @@
     filterAdvertisement();
   });
 
+  const filterPins = window.utils.debounce(() => {
+    const filteredAdverts = filterAdvertisement();
+    window.pin.pinShow(filteredAdverts);
+  }, 300);
+
+  filterForm.addEventListener(`change`, () => {
+    filterPins();
+  });
+
+  window.filter = {
+    filterForm,
+    featureFieldsetElement,
+    filterElements,
+  };
 })();

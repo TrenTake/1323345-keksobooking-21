@@ -61,12 +61,12 @@
   mainPinElement.addEventListener(`mousedown`, (evt) => {
     if (evt.which === 1) {
       window.main.activeApp();
-      if (!window.main.appConfig.withData) {
+      if (!window.utils.appConfig.withData) {
         window.api.loadAdvertisement(
             (response) => {
               window.pin.advertisements = response;
               pinShow(window.pin.advertisements);
-              window.main.appConfig.withData = true;
+              window.utils.appConfig.withData = true;
             },
             showErrorMessage
         );
@@ -77,11 +77,11 @@
   mainPinElement.addEventListener(`keydown`, (evt) => {
     if (evt.keyCode === 13) {
       window.main.activeApp();
-      if (!window.main.appConfig.withData) {
+      if (!window.utils.appConfig.withData) {
         window.api.loadAdvertisement((response) => {
           window.pin.advertisements = response;
           pinShow(window.pin.advertisements);
-          window.main.appConfig.withData = true;
+          window.utils.appConfig.withData = true;
         });
       }
     }

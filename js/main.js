@@ -4,12 +4,18 @@
   const activeApp = () => {
     window.map.mapElement.classList.remove(`map--faded`);
     window.form.adForm.classList.remove(`ad-form--disabled`);
-    appConfig.isActive = true;
+    window.utils.appConfig.isActive = true;
     window.form.setAddress();
 
     for (const fieldset of window.form.adFormFieldsets) {
       fieldset.disabled = false;
     }
+
+    window.filter.filterElements.forEach((filterElement) => {
+      filterElement.disabled = false;
+    });
+
+    window.filter.featureFieldsetElement.disabled = false;
   };
 
   const disableApp = () => {
@@ -19,16 +25,19 @@
     for (const fieldset of window.form.adFormFieldsets) {
       fieldset.disabled = true;
     }
+
+    window.filter.filterElements.forEach((filterElement) => {
+      filterElement.disabled = true;
+    });
+
+    window.filter.featureFieldsetElement.disabled = true;
   };
 
-  const appConfig = {
-    isActive: false,
-    withData: false,
-  };
+  window.form.setAddress();
+  disableApp();
 
   window.main = {
     activeApp,
     disableApp,
-    appConfig,
   };
 })();

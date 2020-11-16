@@ -25,7 +25,7 @@
     const xCoords = window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.offsetWidth / 2;
     const yCoords = window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight;
     addressElement.value = xCoords + `, ` + yCoords;
-    if (window.main.appConfig.isActive === true) {
+    if (window.utils.appConfig.isActive === true) {
       const yCoordsActive = window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight / 2;
       addressElement.value = xCoords + `, ` + yCoordsActive;
     }
@@ -145,14 +145,14 @@
       dropMainPin();
       resetForm();
       window.main.disableApp();
-      window.main.appConfig.withData = false;
+      window.utils.appConfig.withData = false;
       showSuccessMessage();
     }, () => {
       showErrorMessage();
     });
   });
 
-  setAddress();
+  // setAddress();
   roomsAndGuests();
 
   window.form = {
