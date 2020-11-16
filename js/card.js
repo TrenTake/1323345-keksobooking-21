@@ -2,20 +2,34 @@
 
 (() => {
   const cardTemplate = document.querySelector(`#card`);
+  const insertValueToCard = (values, element, text) => {
+    if (values.every((value) => !!value)) {
+      element.textContent = text;
+    } else {
+      element.remove();
+    }
+  };
 
   const createCard = (advertisement) => {
     const cardElement = cardTemplate.cloneNode(true).content.querySelector(`.map__card`);
     const titleElement = cardElement.querySelector(`.popup__title`);
-    titleElement.textContent = advertisement.offer.title;
+    insertValueToCard(advertisement.offer.title, titleElement, advertisement.offer.title);
+
     const addressElement = cardElement.querySelector(`.popup__text--address`);
-    addressElement.textContent = advertisement.offer.address;
+    insertValueToCard(advertisement.offer.address, addressElement, advertisement.offer.address);
+
     const priceElement = cardElement.querySelector(`.popup__text--price`);
-    priceElement.textContent = advertisement.offer.price + `₽/ночь`;
+    insertValueToCard(advertisement.offer.price, priceElement, advertisement.offer.price + `₽/ночь`);
+
     const typeElemennt = cardElement.querySelector(`.popup__type`);
-    typeElemennt.textContent = advertisement.offer.type;
+    insertValueToCard(advertisement.offer.type, typeElemennt, advertisement.offer.type);
+
     const roomElement = cardElement.querySelector(`.popup__text--capacity`);
-    roomElement.textContent = advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`;
+    insertValueToCard(advertisement.offer.rooms, roomElement, advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`);
+
     const checkinElement = cardElement.querySelector(`.popup__text--time`);
+    insertValueToCard();
+
     checkinElement.textContent = `Заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout;
     const avatarElement = cardElement.querySelector(`.popup__avatar`);
     avatarElement.src = advertisement.author.avatar;
