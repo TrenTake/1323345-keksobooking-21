@@ -22,11 +22,11 @@
   };
 
   const setAddress = () => {
-    const xCoords = window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.offsetWidth / 2;
+    const xCoords = Math.round(window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.offsetWidth / 2);
     const yCoords = window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight;
     addressElement.value = xCoords + `, ` + yCoords;
     if (window.utils.appConfig.isActive === true) {
-      const yCoordsActive = window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight / 2;
+      const yCoordsActive = Math.round(window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight / 2);
       addressElement.value = xCoords + `, ` + yCoordsActive;
     }
   };

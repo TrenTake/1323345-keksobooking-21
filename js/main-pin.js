@@ -31,13 +31,14 @@
       };
 
       const newCoords = {
-        x: window.pin.mainPinElement.offsetLeft - shift.x,
+        x: Math.round(window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.clientWidth / 2 - shift.x),
         y: window.pin.mainPinElement.offsetTop - shift.y,
       };
 
       if (newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth && newCoords.y > CoordsLimitY.MIN && newCoords.y < CoordsLimitY.MAX) {
-        window.pin.mainPinElement.style.left = newCoords.x + `px`;
+        window.pin.mainPinElement.style.left = window.pin.mainPinElement.offsetLeft - shift.x + `px`;
         window.pin.mainPinElement.style.top = newCoords.y + `px`;
+        window.form.setAddress();
       }
     };
 
