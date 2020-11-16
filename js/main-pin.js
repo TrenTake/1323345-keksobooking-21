@@ -1,6 +1,11 @@
 'use strict';
 
 (() => {
+  const CoordsLimitY = {
+    MIN: 130,
+    MAX: 630,
+  };
+
   window.pin.mainPinElement.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
@@ -30,7 +35,7 @@
         y: window.pin.mainPinElement.offsetTop - shift.y,
       };
 
-      if (newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth && newCoords.y > 130 && newCoords.y < 630) {
+      if (newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth && newCoords.y > CoordsLimitY.MIN && newCoords.y < CoordsLimitY.MAX) {
         window.pin.mainPinElement.style.left = newCoords.x + `px`;
         window.pin.mainPinElement.style.top = newCoords.y + `px`;
       }
