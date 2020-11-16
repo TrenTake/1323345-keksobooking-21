@@ -22,6 +22,7 @@
   const closeCard = (card) => {
     document.removeEventListener(`keydown`, onEscClose);
     card.remove();
+    window.pin.deactivePin();
   };
 
   window.map = {

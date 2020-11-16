@@ -5,6 +5,13 @@
   const pinTemplate = document.querySelector(`#pin`);
   const mainPinElement = document.querySelector(`.map__pin--main`);
 
+  const deactivePin = () => {
+    const activePinElement = window.map.mapElement.querySelector(`.map__pin--active`);
+    if (activePinElement) {
+      activePinElement.classList.remove(`map__pin--active`);
+    }
+  };
+
   const pinShow = (data) => {
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < data.length && i < PIN_MAX_COUNT; i++) {
@@ -18,12 +25,8 @@
 
       pin.addEventListener(`click`, () => {
         window.map.openCard(data[i]);
-        const activePinElement = window.map.mapElement.querySelector(`.map__pin--active`);
-        if (activePinElement) {
-          activePinElement.classList.remove(`.map__pin--active`);
-        }
-
-        pin.classList.add(`.map__pin--active`);
+        deactivePin();
+        pin.classList.add(`map__pin--active`);
       });
 
       fragment.appendChild(pin);
@@ -103,5 +106,6 @@
     clearPin,
     advertisements: [],
     PIN_MAX_COUNT,
+    deactivePin,
   };
 })();
