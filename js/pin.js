@@ -15,9 +15,17 @@
       pin.style.left = (data[i].location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);
       imgElement.src = data[i].author.avatar;
+
       pin.addEventListener(`click`, () => {
         window.map.openCard(data[i]);
+        const activePinElement = window.map.mapElement.querySelector(`.map__pin--active`);
+        if (activePinElement) {
+          activePinElement.classList.remove(`.map__pin--active`);
+        }
+
+        pin.classList.add(`.map__pin--active`);
       });
+
       fragment.appendChild(pin);
     }
 
