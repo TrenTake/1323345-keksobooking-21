@@ -64,11 +64,7 @@
 
   const filterAdvertisement = () => {
     window.pin.clearPin();
-
-    const cardElement = document.querySelector(`.map__card`);
-    if (cardElement) {
-      window.map.closeCard(cardElement);
-    }
+    window.map.closeCard();
 
     let filteredAdvertisements = [];
     for (const advertisement of window.pin.advertisements) {

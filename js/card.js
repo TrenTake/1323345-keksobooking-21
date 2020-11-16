@@ -73,7 +73,7 @@
 
     const closeButton = cardElement.querySelector(`.popup__close`);
     closeButton.addEventListener(`mousedown`, () => {
-      window.map.closeCard(cardElement);
+      window.map.closeCard();
     });
 
     document.addEventListener(`keydown`, window.map.onEscClose);
