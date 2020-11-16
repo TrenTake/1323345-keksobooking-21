@@ -3,7 +3,13 @@
 (() => {
   const cardTemplate = document.querySelector(`#card`);
   const insertValueToCard = (values, element, text) => {
-    if (values.every((value) => !!value)) {
+
+    const isSet = Array.isArray(values)
+      ? values.every((value) => !!value)
+      : !!values
+    ;
+
+    if (isSet) {
       element.textContent = text;
     } else {
       element.remove();
@@ -25,14 +31,25 @@
     insertValueToCard(advertisement.offer.type, typeElemennt, advertisement.offer.type);
 
     const roomElement = cardElement.querySelector(`.popup__text--capacity`);
-    insertValueToCard(advertisement.offer.rooms, roomElement, advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`);
+    insertValueToCard(
+        [advertisement.offer.rooms, advertisement.offer.guests],
+        roomElement,
+        advertisement.offer.rooms + `комнаты для` + advertisement.offer.guests + `гостей`
+    );
 
     const checkinElement = cardElement.querySelector(`.popup__text--time`);
-    insertValueToCard();
+    insertValueToCard(
+        [advertisement.offer.checkin, advertisement.offer.checkout],
+        checkinElement,
+        `Заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout
+    );
 
-    checkinElement.textContent = `Заезд после ` + advertisement.offer.checkin + `, выезд до ` + advertisement.offer.checkout;
     const avatarElement = cardElement.querySelector(`.popup__avatar`);
-    avatarElement.src = advertisement.author.avatar;
+    if (advertisement.author.avatar) {
+      avatarElement.src = advertisement.author.avatar;
+    } else {
+      avatarElement.remove();
+    }
 
     const cardFeatures = cardElement.querySelector(`.popup__features`);
     const featuresFragment = document.createDocumentFragment();
