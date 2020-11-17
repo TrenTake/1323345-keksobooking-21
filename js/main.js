@@ -29,10 +29,14 @@
     window.filter.filterElements.forEach((filterElement) => {
       filterElement.disabled = true;
     });
-
     window.filter.featureFieldsetElement.disabled = true;
+
     window.map.closeCard();
+    window.pin.clearPin();
+    window.mainPin.drop();
+    window.form.reset();
     window.filter.filterForm.reset();
+    window.utils.appConfig.withData = false;
   };
 
   window.form.setAddress();

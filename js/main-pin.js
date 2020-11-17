@@ -1,9 +1,17 @@
 'use strict';
 
 (() => {
+  const MAIN_PIN_TOP_DEFAULT = 375;
+  const MAIN_PIN_WIDTH = 65;
+
   const CoordsLimitY = {
     MIN: 130,
     MAX: 630,
+  };
+
+  const dropMainPin = () => {
+    window.pin.mainPinElement.style.top = MAIN_PIN_TOP_DEFAULT + `px`;
+    window.pin.mainPinElement.style.left = window.map.mapElement.clientWidth / 2 - MAIN_PIN_WIDTH / 2 + `px`;
   };
 
   window.pin.mainPinElement.addEventListener(`mousedown`, (evt) => {
@@ -59,4 +67,8 @@
     document.addEventListener(`mousemove`, onMouseMove);
     document.addEventListener(`mouseup`, onMouseUp);
   });
+
+  window.mainPin = {
+    drop: dropMainPin,
+  };
 })();

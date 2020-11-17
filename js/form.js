@@ -1,8 +1,6 @@
 'use strict';
 
 (() => {
-  const MAINPIN_TOP_DEFAULT = 375;
-  const MAINPIN_WIDTH = 65;
   const adForm = document.querySelector(`.ad-form`);
   const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
   const addressElement = document.querySelector(`#address`);
@@ -34,11 +32,6 @@
   const resetForm = () => {
     adForm.reset();
     setAddress();
-  };
-
-  const dropMainPin = () => {
-    window.pin.mainPinElement.style.top = MAINPIN_TOP_DEFAULT + `px`;
-    window.pin.mainPinElement.style.left = window.map.mapElement.clientWidth / 2 - MAINPIN_WIDTH / 2 + `px`;
   };
 
   const roomNumberElement = document.querySelector(`#room_number`);
@@ -132,27 +125,21 @@
   const resetButton = adForm.querySelector(`.ad-form__reset`);
   resetButton.addEventListener(`click`, (evt) => {
     evt.preventDefault();
-    resetForm();
+    window.main.disableApp();
   });
-
 
   adForm.addEventListener(`submit`, (evt) => {
     evt.preventDefault();
     const data = new FormData(adForm);
 
     window.api.uploadAdvertisement(data, () => {
-      window.pin.clearPin();
-      dropMainPin();
-      resetForm();
       window.main.disableApp();
-      window.utils.appConfig.withData = false;
       showSuccessMessage();
     }, () => {
       showErrorMessage();
     });
   });
 
-  // setAddress();
   roomsAndGuests();
 
   window.form = {
@@ -169,5 +156,6 @@
     timeInElement,
     timeOutElement,
     setTimeInOut,
+    reset: resetForm,
   };
 })();
