@@ -88,9 +88,9 @@
     window.pin.pinShow(filteredAdverts);
   };
 
-  filterForm.addEventListener(`change`, () => {
-    filterPins();
-  });
+  const onFilterChangeWithDebounce = window.utils.debounce(filterPins);
+
+  filterForm.addEventListener(`change`, onFilterChangeWithDebounce);
 
   window.filter = {
     filterForm,
