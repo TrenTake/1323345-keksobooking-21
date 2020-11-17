@@ -16,6 +16,11 @@
     HIGH: `high`,
   };
 
+  const PriceMiddleLimit = {
+    MIN: 10000,
+    MAX: 50000,
+  };
+
   const checkGuests = (guestsCount) => {
     return guestInput.value === `any` || parseInt(guestInput.value, 10) === guestsCount;
   };
@@ -34,13 +39,13 @@
         return true;
 
       case Price.MIDDLE:
-        return price > 10000 && price < 500000;
+        return price > PriceMiddleLimit.MIN && price < PriceMiddleLimit.MAX;
 
       case Price.LOW:
-        return price < 10000;
+        return price < PriceMiddleLimit.MIN;
 
       case Price.HIGH:
-        return price > 50000;
+        return price > PriceMiddleLimit.MAX;
 
       default:
         return true;
@@ -74,7 +79,7 @@
         filteredAdvertisements.push(advertisement);
       }
 
-      if (filteredAdvertisements.length >= window.pin.PIN_MAX_COUNT) {
+      if (filteredAdvertisements.length >= window.pin.maxCount) {
         break;
       }
     }
@@ -82,10 +87,10 @@
   };
 
   const filterPins = () => {
-    window.pin.clearPin();
+    window.pin.clear();
     window.map.closeCard();
     const filteredAdverts = filterAdvertisement();
-    window.pin.pinShow(filteredAdverts);
+    window.pin.render(filteredAdverts);
   };
 
   const onFilterChangeWithDebounce = window.utils.debounce(filterPins);
@@ -93,8 +98,8 @@
   filterForm.addEventListener(`change`, onFilterChangeWithDebounce);
 
   window.filter = {
-    filterForm,
+    formElement: filterForm,
     featureFieldsetElement,
-    filterElements,
+    elements: filterElements,
   };
 })();

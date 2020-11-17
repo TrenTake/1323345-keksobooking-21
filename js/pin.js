@@ -8,7 +8,7 @@
 
 
   const deactivePin = () => {
-    const activePinElement = window.map.mapElement.querySelector(`.map__pin--active`);
+    const activePinElement = window.map.element.querySelector(`.map__pin--active`);
     if (activePinElement) {
       activePinElement.classList.remove(`map__pin--active`);
     }
@@ -45,11 +45,10 @@
 
 
   window.pin = {
-    pinTemplate,
-    pinShow,
-    clearPin,
+    render: pinShow,
+    clear: clearPin,
     advertisements: [],
-    PIN_MAX_COUNT,
-    deactivePin,
+    maxCount: PIN_MAX_COUNT,
+    deactive: deactivePin,
   };
 })();

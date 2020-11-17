@@ -4,11 +4,11 @@
   const mapElement = document.querySelector(`.map`);
   const openCard = (advertisement) => {
     closeCard();
-    window.card.createCard(advertisement);
+    window.card.render(advertisement);
   };
 
   const onEscClose = (evt) => {
-    if (evt.key === `Escape`) {
+    if (evt.key === window.utils.Keyboard.ESCAPE) {
       closeCard();
     }
   };
@@ -18,12 +18,12 @@
     if (cardElement) {
       cardElement.remove();
       document.removeEventListener(`keydown`, onEscClose);
-      window.pin.deactivePin();
+      window.pin.deactive();
     }
   };
 
   window.map = {
-    mapElement,
+    element: mapElement,
     openCard,
     onEscClose,
     closeCard,

@@ -110,11 +110,10 @@
     document.addEventListener(`keydown`, window.map.onEscClose);
 
     cardPictures.appendChild(picturesFragment);
-    window.map.mapElement.appendChild(cardElement);
+    window.map.element.appendChild(cardElement);
   };
 
   window.card = {
-    cardTemplate,
-    createCard,
+    render: createCard,
   };
 })();

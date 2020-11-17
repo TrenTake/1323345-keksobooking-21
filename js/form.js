@@ -89,7 +89,7 @@
     };
 
     const onPupEsc = (evt) => {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.utils.Keyboard.ESCAPE) {
         closeMessage();
       }
     };
@@ -115,7 +115,7 @@
     });
 
     const onPopupEsc = (evt) => {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.utils.Keyboard.ESCAPE) {
         closeMessage();
       }
     };
@@ -145,19 +145,9 @@
   roomsAndGuests();
 
   window.form = {
-    adForm,
-    adFormFieldsets,
-    priceElement,
-    typeHouseElement,
+    element: adForm,
+    fieldsetElements: adFormFieldsets,
     setAddress,
-    setPrice,
-    addressElement,
-    roomNumberElement,
-    capacityElement,
-    roomsAndGuests,
-    timeInElement,
-    timeOutElement,
-    setTimeInOut,
     reset: resetForm,
     photoElement,
   };

@@ -17,7 +17,7 @@
 
   const dropMainPin = () => {
     mainPinElement.style.top = MAIN_PIN_TOP_DEFAULT + `px`;
-    mainPinElement.style.left = window.map.mapElement.clientWidth / 2 - MAIN_PIN_WIDTH / 2 + `px`;
+    mainPinElement.style.left = window.map.element.clientWidth / 2 - MAIN_PIN_WIDTH / 2 + `px`;
   };
 
   const showErrorMessage = (errorMessage) => {
@@ -37,7 +37,7 @@
     });
 
     const onPopupEsc = (evt) => {
-      if (evt.key === `Escape`) {
+      if (evt.key === window.utils.Keyboard.ESCAPE) {
         closeMessage();
       }
     };
@@ -55,7 +55,7 @@
       window.api.loadAdvertisement(
           (response) => {
             window.pin.advertisements = response.filter((advertisement) => !!advertisement.offer);
-            window.pin.pinShow(window.pin.advertisements);
+            window.pin.render(window.pin.advertisements);
             window.utils.appConfig.withData = true;
           },
           showErrorMessage
@@ -88,7 +88,7 @@
       };
 
       if (
-        newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth
+        newCoords.x > 0 && newCoords.x < window.map.element.clientWidth
         && (newCoords.y + mainPinElement.clientHeight) >= CoordsLimitY.MIN && newCoords.y <= CoordsLimitY.MAX
       ) {
         mainPinElement.style.left = mainPinElement.offsetLeft - shift.x + `px`;
@@ -120,7 +120,7 @@
   });
 
   mainPinElement.addEventListener(`keydown`, (evt) => {
-    if (evt.key === `Enter`) {
+    if (evt.key === window.utils.KeyboardKey.ENTER) {
       activeApp();
     }
   });

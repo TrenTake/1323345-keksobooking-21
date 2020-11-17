@@ -2,6 +2,12 @@
 
 (() => {
   const DEBOUNCE_INTERVAL = 300;
+
+  const KeyboardKey = {
+    ENTER: `Enter`,
+    ESCAPE: `Escape`,
+  };
+
   const appConfig = {
     isActive: false,
     withData: false,
@@ -23,5 +29,6 @@
   window.utils = {
     appConfig,
     debounce,
+    KeyboardKey,
   };
 })();
