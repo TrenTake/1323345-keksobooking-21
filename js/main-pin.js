@@ -37,7 +37,7 @@
     });
 
     const onPopupEsc = (evt) => {
-      if (evt.key === window.utils.Keyboard.ESCAPE) {
+      if (evt.key === window.utils.KeyboardKey.ESCAPE) {
         closeMessage();
       }
     };
