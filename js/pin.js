@@ -2,6 +2,8 @@
 
 (() => {
   const PIN_MAX_COUNT = 5;
+  const HEIGHT_PIN = 40;
+  const WIDTH_PIN = 40;
   const pinTemplate = document.querySelector(`#pin`);
 
 
@@ -16,8 +18,6 @@
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < data.length && i < PIN_MAX_COUNT; i++) {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
-      const HEIGHT_PIN = 40;
-      const WIDTH_PIN = 40;
       pin.style.top = (data[i].location.y - HEIGHT_PIN) + `px`;
       pin.style.left = (data[i].location.x - WIDTH_PIN / 2) + `px`;
       const imgElement = pin.querySelector(`img`);

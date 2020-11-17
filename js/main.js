@@ -2,6 +2,8 @@
 
 (() => {
   const activeApp = () => {
+    const photoElement = document.querySelector(`.ad-form-header`);
+    photoElement.disabled = false;
     window.map.mapElement.classList.remove(`map--faded`);
     window.form.adForm.classList.remove(`ad-form--disabled`);
     window.utils.appConfig.isActive = true;
@@ -21,6 +23,8 @@
   const disableApp = () => {
     window.map.mapElement.classList.add(`map--faded`);
     window.form.adForm.classList.add(`ad-form--disabled`);
+    const photoElement = document.querySelector(`.ad-form-header`);
+    photoElement.disabled = true;
 
     for (const fieldset of window.form.adFormFieldsets) {
       fieldset.disabled = true;
