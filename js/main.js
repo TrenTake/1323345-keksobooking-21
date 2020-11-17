@@ -20,6 +20,7 @@
   };
 
   const disableApp = () => {
+    window.utils.appConfig.isActive = false;
     window.map.mapElement.classList.add(`map--faded`);
     window.form.adForm.classList.add(`ad-form--disabled`);
     window.form.photoElement.disabled = true;

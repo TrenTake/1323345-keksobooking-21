@@ -1,6 +1,7 @@
 'use strict';
 
 (() => {
+  const PRICE_PLACEHOLDER_DEFAULT = `1000`;
   const adForm = document.querySelector(`.ad-form`);
   const adFormFieldsets = document.querySelectorAll(`.ad-form__element`);
   const addressElement = document.querySelector(`#address`);
@@ -32,6 +33,7 @@
   const resetForm = () => {
     adForm.reset();
     setAddress();
+    priceElement.placeholder = PRICE_PLACEHOLDER_DEFAULT;
   };
 
   const roomNumberElement = document.querySelector(`#room_number`);

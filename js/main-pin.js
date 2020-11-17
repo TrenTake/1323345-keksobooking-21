@@ -88,7 +88,10 @@
         y: mainPinElement.offsetTop - shift.y,
       };
 
-      if (newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth && newCoords.y > CoordsLimitY.MIN && newCoords.y < CoordsLimitY.MAX) {
+      if (
+        newCoords.x > 0 && newCoords.x < window.map.mapElement.clientWidth
+        && (newCoords.y + mainPinElement.clientHeight) >= CoordsLimitY.MIN && newCoords.y <= CoordsLimitY.MAX
+      ) {
         mainPinElement.style.left = mainPinElement.offsetLeft - shift.x + `px`;
         mainPinElement.style.top = newCoords.y + `px`;
         window.form.setAddress();
