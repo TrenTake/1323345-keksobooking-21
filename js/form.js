@@ -20,11 +20,11 @@
   };
 
   const setAddress = () => {
-    const xCoords = Math.round(window.pin.mainPinElement.offsetLeft + window.pin.mainPinElement.offsetWidth / 2);
-    const yCoords = window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight;
+    const xCoords = Math.round(window.mainPin.element.offsetLeft + window.mainPin.element.offsetWidth / 2);
+    const yCoords = window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight;
     addressElement.value = xCoords + `, ` + yCoords;
     if (window.utils.appConfig.isActive === true) {
-      const yCoordsActive = Math.round(window.pin.mainPinElement.offsetTop + window.pin.mainPinElement.offsetHeight / 2);
+      const yCoordsActive = Math.round(window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight / 2);
       addressElement.value = xCoords + `, ` + yCoordsActive;
     }
   };

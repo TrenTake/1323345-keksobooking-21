@@ -3,7 +3,7 @@
 (() => {
   const PIN_MAX_COUNT = 5;
   const pinTemplate = document.querySelector(`#pin`);
-  const mainPinElement = document.querySelector(`.map__pin--main`);
+
 
   const deactivePin = () => {
     const activePinElement = window.map.mapElement.querySelector(`.map__pin--active`);
@@ -43,67 +43,10 @@
     });
   };
 
-  const showErrorMessage = (errorMessage) => {
-    const errorElement = document.querySelector(`#error`).cloneNode(true).content.querySelector(`.error`);
-    const errorMessageElement = errorElement.querySelector(`.error__message`);
-    const errorButtonElement = errorElement.querySelector(`.error__button`);
-    errorButtonElement.remove();
-    errorMessageElement.textContent = errorMessage;
-
-    const closeMessage = () => {
-      errorElement.remove();
-      document.removeEventListener(`keydown`, onPopupEsc);
-    };
-
-    errorElement.addEventListener(`click`, () => {
-      closeMessage();
-    });
-
-    const onPopupEsc = (evt) => {
-      if (evt.key === `Escape`) {
-        closeMessage();
-      }
-    };
-
-    document.addEventListener(`keydown`, onPopupEsc);
-    document.body.appendChild(errorElement);
-  };
-
-  mainPinElement.addEventListener(`mousedown`, (evt) => {
-    if (evt.which === 1) {
-      window.main.activeApp();
-      if (!window.utils.appConfig.withData) {
-        window.api.loadAdvertisement(
-            (response) => {
-              const filteredAdvertisements = response.filter((advertisement) => !!advertisement.offer);
-              window.pin.advertisements = filteredAdvertisements;
-              pinShow(window.pin.advertisements);
-              window.utils.appConfig.withData = true;
-            },
-            showErrorMessage
-        );
-      }
-    }
-  });
-
-  mainPinElement.addEventListener(`keydown`, (evt) => {
-    if (evt.keyCode === 13) {
-      window.main.activeApp();
-      if (!window.utils.appConfig.withData) {
-        window.api.loadAdvertisement((response) => {
-          window.pin.advertisements = response;
-          pinShow(window.pin.advertisements);
-          window.utils.appConfig.withData = true;
-        });
-      }
-    }
-  });
 
   window.pin = {
     pinTemplate,
     pinShow,
-    mainPinElement,
-    showErrorMessage,
     clearPin,
     advertisements: [],
     PIN_MAX_COUNT,
