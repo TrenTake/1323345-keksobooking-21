@@ -6,6 +6,7 @@
   const addressElement = document.querySelector(`#address`);
   const priceElement = document.querySelector(`#price`);
   const typeHouseElement = document.querySelector(`#type`);
+  const photoElement = document.querySelector(`.ad-form-header`);
 
   const setPrice = (type) => {
     const minPrice = {
