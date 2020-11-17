@@ -47,7 +47,6 @@
     }
   };
 
-  // eslint-disable-next-line valid-jsdoc
   /**
    * @param {string[]} features - Массив удобств из объекта объявления
    * @return {boolean}
@@ -63,9 +62,6 @@
   };
 
   const filterAdvertisement = () => {
-    window.pin.clearPin();
-    window.map.closeCard();
-
     let filteredAdvertisements = [];
     for (const advertisement of window.pin.advertisements) {
       if (
@@ -85,27 +81,9 @@
     return filteredAdvertisements;
   };
 
-  featureFieldsetElement.addEventListener(`change`, () => {
-    filterAdvertisement();
-  });
-
-  guestInput.addEventListener(`change`, () => {
-    filterAdvertisement();
-  });
-
-  priceInput.addEventListener(`change`, () => {
-    filterAdvertisement();
-  });
-
-  roomInput.addEventListener(`change`, () => {
-    filterAdvertisement();
-  });
-
-  typeInput.addEventListener(`change`, () => {
-    filterAdvertisement();
-  });
-
   const filterPins = () => {
+    window.pin.clearPin();
+    window.map.closeCard();
     const filteredAdverts = filterAdvertisement();
     window.pin.pinShow(filteredAdverts);
   };

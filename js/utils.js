@@ -12,9 +12,9 @@
 
     return (...parameters) => {
       if (lastTimeout) {
-        window.clearTimeout(lastTimeout);
+        clearTimeout(lastTimeout);
       }
-      lastTimeout = window.setTimeout(() => {
+      lastTimeout = setTimeout(() => {
         cb(...parameters);
       }, DEBOUNCE_INTERVAL);
     };
