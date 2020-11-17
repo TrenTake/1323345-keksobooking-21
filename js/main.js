@@ -8,7 +8,7 @@
     window.utils.appConfig.isActive = true;
     window.form.setAddress();
 
-    for (const fieldset of window.form.fieldsetElement) {
+    for (const fieldset of window.form.fieldsetElements) {
       fieldset.disabled = false;
     }
 
@@ -25,7 +25,7 @@
     window.form.element.classList.add(`ad-form--disabled`);
     window.form.photoElement.disabled = true;
 
-    for (const fieldset of window.form.fieldsetElement) {
+    for (const fieldset of window.form.fieldsetElements) {
       fieldset.disabled = true;
     }
 
