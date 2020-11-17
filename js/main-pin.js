@@ -89,7 +89,7 @@
 
       if (
         newCoords.x > 0 && newCoords.x < window.map.element.clientWidth
-        && (newCoords.y + mainPinElement.clientHeight) >= CoordsLimitY.MIN && newCoords.y <= CoordsLimitY.MAX
+        && (newCoords.y + mainPinElement.clientHeight) >= CoordsLimitY.MIN && (newCoords.y + mainPinElement.clientHeight) <= CoordsLimitY.MAX
       ) {
         mainPinElement.style.left = mainPinElement.offsetLeft - shift.x + `px`;
         mainPinElement.style.top = newCoords.y + `px`;
