@@ -18,8 +18,8 @@
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < data.length && i < PIN_MAX_COUNT; i++) {
       const pin = pinTemplate.cloneNode(true).content.querySelector(`.map__pin`);
-      pin.style.top = (data[i].location.y - HEIGHT_PIN) + `px`;
-      pin.style.left = (data[i].location.x - WIDTH_PIN / 2) + `px`;
+      pin.style.top = `${(data[i].location.y - HEIGHT_PIN)}px`;
+      pin.style.left = `${(data[i].location.x - WIDTH_PIN / 2)}px`;
       const imgElement = pin.querySelector(`img`);
       imgElement.src = data[i].author.avatar;
 

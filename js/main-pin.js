@@ -54,8 +54,7 @@
     if (!window.utils.appConfig.withData) {
       window.api.loadAdvertisement(
           (response) => {
-            const filteredAdvertisements = response.filter((advertisement) => !!advertisement.offer);
-            window.pin.advertisements = filteredAdvertisements;
+            window.pin.advertisements = response.filter((advertisement) => !!advertisement.offer);
             window.pin.pinShow(window.pin.advertisements);
             window.utils.appConfig.withData = true;
           },
