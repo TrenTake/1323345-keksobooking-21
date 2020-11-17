@@ -22,7 +22,7 @@
   const disableApp = () => {
     window.map.mapElement.classList.add(`map--faded`);
     window.form.adForm.classList.add(`ad-form--disabled`);
-    window.photoElement.disabled = true;
+    window.form.photoElement.disabled = true;
 
     for (const fieldset of window.form.adFormFieldsets) {
       fieldset.disabled = true;

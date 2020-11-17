@@ -97,12 +97,12 @@
 
     const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
-      mainPinElement.removeEventListener(`mousemove`, onMouseMove);
-      mainPinElement.removeEventListener(`mouseup`, onMouseUp);
+      document.removeEventListener(`mousemove`, onMouseMove);
+      document.removeEventListener(`mouseup`, onMouseUp);
     };
 
-    mainPinElement.addEventListener(`mousemove`, onMouseMove);
-    mainPinElement.addEventListener(`mouseup`, onMouseUp);
+    document.addEventListener(`mousemove`, onMouseMove);
+    document.addEventListener(`mouseup`, onMouseUp);
   };
 
 

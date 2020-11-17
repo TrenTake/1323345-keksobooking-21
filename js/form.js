@@ -22,12 +22,11 @@
 
   const setAddress = () => {
     const xCoords = Math.round(window.mainPin.element.offsetLeft + window.mainPin.element.offsetWidth / 2);
-    const yCoords = window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight;
-    addressElement.value = xCoords + `, ` + yCoords;
-    if (window.utils.appConfig.isActive === true) {
-      const yCoordsActive = Math.round(window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight / 2);
-      addressElement.value = xCoords + `, ` + yCoordsActive;
-    }
+    const yCoords = window.utils.appConfig.isActive
+      ? window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight
+      : Math.round(window.mainPin.element.offsetTop + window.mainPin.element.offsetHeight / 2);
+
+    addressElement.value = `${xCoords}, ${yCoords}`;
   };
 
   const resetForm = () => {
@@ -158,5 +157,6 @@
     timeOutElement,
     setTimeInOut,
     reset: resetForm,
+    photoElement,
   };
 })();
